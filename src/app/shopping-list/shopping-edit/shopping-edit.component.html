@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
-    <form #editForm="ngForm" (submit)="onAddItem()">
+    <form #editForm="ngForm" (submit)="onSubmit()">
       <div class="row">
         <div class="col-sm-5 form-group">
           <label for="name">Name</label>
@@ -31,11 +31,14 @@
             type="submit"
             [disabled]="!editForm.valid">{{ editMode ? 'Update' : 'Add' }}</button>
           <button
+            *ngIf="editMode"
             class="btn btn-danger"
-            type="button">Delete</button>
+            type="button"
+            (click)="onDelete()">Delete</button>
           <button
             class="btn btn-primary"
-            type="button">Clear</button>
+            type="button"
+            (click)="onClear()">Clear</button>
         </div>
       </div>
     </form>
