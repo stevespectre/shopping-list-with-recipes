@@ -3,13 +3,15 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+// **Using lazy loading makes these lines unnecessary**
+// import { AuthModule } from './auth/auth.module';
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
-import { RecipesModule } from './recipes/recipes.module';
-import { ShoppingListModule } from './shopping-list/shopping-list.module';
+// **Using lazy loading makes these lines unnecessary**
+// import { RecipesModule } from './recipes/recipes.module';
+// import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { SharedModule } from './shared/shared.module';
-import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -18,12 +20,12 @@ import { AuthModule } from './auth/auth.module';
   ],
   imports: [
     AppRoutingModule,
-    AuthModule,
+    // AuthModule,
     BrowserModule,
     HttpClientModule,
-    RecipesModule,
+    // RecipesModule,
     SharedModule,
-    ShoppingListModule
+    // ShoppingListModule
   ],
   providers: [
     {
