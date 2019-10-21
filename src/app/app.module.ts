@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 // **Using lazy loading makes these lines unnecessary**
@@ -12,6 +13,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 // import { RecipesModule } from './recipes/recipes.module';
 // import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { SharedModule } from './shared/shared.module';
+import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { SharedModule } from './shared/shared.module';
     HttpClientModule,
     // RecipesModule,
     SharedModule,
+    StoreModule.forRoot({shoppingList: shoppingListReducer})
     // ShoppingListModule
   ],
   providers: [
