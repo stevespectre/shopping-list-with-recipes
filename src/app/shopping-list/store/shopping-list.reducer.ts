@@ -24,6 +24,26 @@ export function shoppingListReducer(
         // 2nd spread operator is used for not nesting the ingredients but using its elements
         ingredients: [...state.ingredients, ...action.payload]
       };
+    case ShoppingListActions.UPDATE_INGREDIENTS:
+      const ingredient = state.ingredients[action.payload.index];
+      const updatedIngredient = {
+        ...ingredient,
+        ...action.payload.ingredient
+      };
+      const updatedIngredients = [...state.ingredients];
+      updatedIngredients[action.payload.index] = updatedIngredient;
+
+      return {
+        ...state,
+        ingredients: updatedIngredients
+      };
+    case ShoppingListActions.DELETE_INGREDIENT:
+      return {
+        ...state,
+        ingredients: state.ingredients.filter((ingr, ingrIndex) => {
+          return ingrIndex !== action.payload;
+        })
+      };
     default:
       return state;
   }
