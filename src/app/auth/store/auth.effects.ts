@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from '../user.model';
 
 export interface AuthResponseData {
   kind: string;
@@ -24,6 +25,8 @@ const handleAuth = (
   token: string
 ) => {
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+  const user = new User(email, userId, token, expirationDate);
+  localStorage.setItem('userData', JSON.stringify(user));
   // dispatch automatically happens here
   return new authActions.AuthenticateSuccess({
     email,
@@ -116,6 +119,50 @@ export class AuthEffects {
     ofType(authActions.AUTHENTICATE_SUCCESS, authActions.LOGOUT),
     tap(() => {
       this.router.navigate(['/']);
+    })
+  );
+
+  @Effect()
+  autoLogin = this.actions$.pipe(
+    ofType(authActions.AUTO_LOGIN),
+    map(() => {
+      const userData: {
+        email: string;
+        id: string;
+        token: string;
+        tokenExpirationDate: string;
+      } = JSON.parse(localStorage.getItem('userData'));
+      if (!userData) {
+        return {type: 'DUMMY'};
+      }
+
+      const loadedUser = new User(
+        userData.email,
+        userData.id,
+        userData.token,
+        new Date(userData.tokenExpirationDate)
+      );
+
+      if (loadedUser.userToken) {
+        // this.user.next(loadedUser);
+        return new authActions.AuthenticateSuccess({
+          email: loadedUser.email,
+          userId: loadedUser.id,
+          token: loadedUser.userToken,
+          expirationDate: new Date(userData.tokenExpirationDate)
+        });
+        // const expirationDuration = new Date(userData.tokenExpirationDate).getTime() - new Date().getTime();
+        // this.autoLogout(expirationDuration);
+      }
+      return {type: 'DUMMY'};
+    })
+  );
+
+  @Effect({dispatch: false}) // This effect doesn't dispatch at the end
+  authLogout = this.actions$.pipe(
+    ofType(authActions.LOGOUT),
+    tap(() => {
+      localStorage.removeItem('userData');
     })
   );
 
