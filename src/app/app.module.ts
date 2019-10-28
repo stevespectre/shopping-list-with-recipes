@@ -11,6 +11,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { SharedModule } from './shared/shared.module';
 import * as fromApp from './store/app.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
+import { RecipeEffects } from './recipes/store/recipes.effects';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { AuthEffects } from './auth/store/auth.effects';
     // RecipesModule,
     SharedModule,
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, RecipeEffects]),
     // ShoppingListModule
   ],
   providers: [
