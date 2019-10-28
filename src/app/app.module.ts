@@ -20,12 +20,9 @@ import { SharedModule } from './shared/shared.module';
   ],
   imports: [
     AppRoutingModule,
-    // AuthModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({appId: 'my-app'}),
     HttpClientModule,
-    // RecipesModule,
     SharedModule,
-    // ShoppingListModule
   ],
   providers: [
     {
